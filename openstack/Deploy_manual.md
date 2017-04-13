@@ -45,7 +45,7 @@ $ cd openstack-deploy
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/config/target_machine_hosts
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/sh/setup_deployment_machine.sh
 $ chmod +x setup_deployment_machine.sh
-$ ./setup_deployment_machine.sh target_machine_hosts USER-ACCOUNT
+$ ./setup_deployment_machine.sh target_machine_hosts **USER-ACCOUNT**
 ```
 **_Note_**: "USER-ACCOUNT" is the target user account used for deployment.
 
@@ -63,7 +63,7 @@ $ ./setup_deployment_machine.sh target_machine_hosts USER-ACCOUNT
 $ cd openstack-deploy
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/sh/setup_target_machines.sh
 $ chmod +x setup_target_machines.sh
-$ ./setup_target_machines.sh target_machine_hosts
+$ ./setup_target_machines.sh target_machine_hosts **USER-ACCOUNT**
 ```
 
 ## <a name="4">4. Deploy OpenStack</a>

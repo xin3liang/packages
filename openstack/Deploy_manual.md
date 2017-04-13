@@ -45,10 +45,10 @@ $ cd openstack-deploy
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/config/target_machine_hosts
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/sh/setup_deployment_machine.sh
 $ chmod +x setup_deployment_machine.sh
-$ ./setup_deployment_machine.sh target_machine_hosts
+$ ./setup_deployment_machine.sh target_machine_hosts USER-ACCOUNT
 ```
-**_Note1_**: Setup hosts file is optinal if you have an dns service for the target machines
-
+**_Note_**: "USER-ACCOUNT" is the target user account used for deployment.
+**_Note1_**: Setup hosts file is optinal if you have an dns service for the target machines. Please modify the ./setup_deployment_machine.sh to skip Setup hosts file.
 **_Note2_**: The default target_machine_hosts file is for test guy, please modifiy the target_machine_hosts file according to ip and host name of target machine.
 
 ## <a name="3">3. Setup Target Machines</a>
@@ -86,7 +86,7 @@ $ cd openstack-deploy/openstack-ref-architecture/ansible/
 $ ansible-playbook -K -i ./secrets/hosts ./site.yml --tags ceph-mon -u **USER-ACCOUNT**
 $ ansible-playbook -K -i ./secrets/hosts ./site.yml --tags ceph-osd -u **USER-ACCOUNT**
 ```
-**_Note_**: "USER-ACCOUNT" is the target user account used for deployment.
+
 * Deploy Web frontend (This is only for production, test guy please skip this step)
 ```
 $ ansible-playbook -K -i ./secrets/hosts ./site.yml -u **USER-ACCOUNT** --tags web-frontend

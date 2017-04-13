@@ -23,7 +23,10 @@ For dnsmasq, please refer to official [manual](http://www.thekelleys.org.uk/dnsm
 
 ## <a name="2">2. Setup Deployment Machine</a>
 ***
-* Install latest ansible(Required version 2.2+) On deployment machine
+
+**_Note_**: All the bellow steps are operated on deployment machine.
+
+* Install latest ansible(Required version 2.2+)
 
 e.g. ubuntu: 
 ```
@@ -35,7 +38,7 @@ $ sudo apt-get install ansible
 Please refer to offical [Install latest ansible](http://docs.ansible.com/ansible/intro_installation.html#installing-the-control-machine) for other distros ansible installation.
 
 
-* Generate ssh key, setup hosts file(optinal), copy public key to target machine.
+* Generate ssh key, setup hosts file(optinal), copy public key to target machine
 ```
 $ mkdir openstack-deploy
 $ cd openstack-deploy
@@ -46,11 +49,14 @@ $ ./setup_deployment_machine.sh target_machine_hosts
 ```
 **_Note1_**: Setup hosts file is optinal if you have an dns service for the target machines
 
-**_Note2_**: Please modifiy the target_machine_hosts file according to ip and host name of target machine.
+**_Note2_**: The default target_machine_hosts file is for test guy, please modifiy the target_machine_hosts file according to ip and host name of target machine.
 
 ## <a name="3">3. Setup Target Machines</a>
 ***
-* Configure hostname, add and update repo
+
+**_Note_**: All the bellow steps are operated on deployment machine.
+
+* Configure target hostname, add and update repo
 ```
 $ cd openstack-deploy
 $ wget https://raw.githubusercontent.com/open-estuary/packages/**RELEASE-TAG**/openstack/sh/setup_target_machines.sh
@@ -61,10 +67,32 @@ $ ./setup_target_machines.sh target_machine_hosts
 ## <a name="4">4. Deploy OpenStack</a>
 ***
 
-* Deploy ceph
+**_Note_**: All the bellow steps are operated on deployment machine.
+
+* Check the connectivity with target machines.
 ```
 $ cd openstack-deploy
 $ git clone -b master --depth=1 https://git.linaro.org/leg/sdi/openstack-ref-architecture.git
 $ git clone -b **RELEASE-TAG** --depth=1 https://github.com/open-estuary/packages.git
+$ cd openstack-ref-architecture/ansible/
+$ ln -s packages/openstack/config/secrets
+$ ansible all -i secrets/hosts -m shell -a "ls" -u **USER-ACCOUNT** -K -b
+```
+**_Note_**: The default secrets files is for test guy, please modifiy the secrets files according to your environment.
+
+* Deploy ceph
+```
+$ cd openstack-deploy/openstack-ref-architecture/ansible/
+$ ansible-playbook -K -i ./secrets/hosts ./site.yml --tags ceph-mon -u **USER-ACCOUNT**
+$ ansible-playbook -K -i ./secrets/hosts ./site.yml --tags ceph-osd -u **USER-ACCOUNT**
+```
+**_Note_**: "USER-ACCOUNT" is the target user account used for deployment.
+* Deploy Web frontend (This is only for production, test guy please skip this step)
+```
+$ ansible-playbook -K -i ./secrets/hosts ./site.yml -u **USER-ACCOUNT** --tags web-frontend
 ```
 
+* Deploy openstack
+```
+ansible-playbook -K -i ./secrets/hosts ./site.yml -u **USER-ACCOUNT**
+```

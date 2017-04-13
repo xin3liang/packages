@@ -48,7 +48,9 @@ $ chmod +x setup_deployment_machine.sh
 $ ./setup_deployment_machine.sh target_machine_hosts USER-ACCOUNT
 ```
 **_Note_**: "USER-ACCOUNT" is the target user account used for deployment.
+
 **_Note1_**: Setup hosts file is optinal if you have an dns service for the target machines. Please modify the ./setup_deployment_machine.sh to skip Setup hosts file.
+
 **_Note2_**: The default target_machine_hosts file is for test guy, please modifiy the target_machine_hosts file according to ip and host name of target machine.
 
 ## <a name="3">3. Setup Target Machines</a>
